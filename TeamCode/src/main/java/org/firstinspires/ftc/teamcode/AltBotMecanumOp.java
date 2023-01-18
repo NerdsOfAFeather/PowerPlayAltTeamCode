@@ -72,6 +72,7 @@ public class AltBotMecanumOp extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private CRServo discoServo = null;
 
     public double axial;
     public double lateral;
@@ -86,6 +87,7 @@ public class AltBotMecanumOp extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "BackLeftDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "FrontRightDrive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "BackRightDrive");
+        discoServo = hardwareMap.get(CRServo.class, "DiscoBall");
 
 
         // Most robots need the motors on one side to be reversed to drive forward.
@@ -123,6 +125,11 @@ public class AltBotMecanumOp extends LinearOpMode {
                 yaw =  gamepad1.right_stick_x;
             }else{
                 yaw = 0;
+            }
+            if (gamepad1.a && !discoServo.isBusy()){
+                discoServo.setPower(50);
+            } else if (gamepad1.a && discoServo.isBusy(){
+                discoServo.setPower(0);
             }
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
