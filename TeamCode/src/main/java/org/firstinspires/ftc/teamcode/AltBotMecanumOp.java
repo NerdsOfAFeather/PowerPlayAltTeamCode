@@ -32,8 +32,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -72,6 +74,7 @@ public class AltBotMecanumOp extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private Servo armServo = null;
     private CRServo discoServo = null;
 
     public double axial;
@@ -87,6 +90,7 @@ public class AltBotMecanumOp extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "BackLeftDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "FrontRightDrive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "BackRightDrive");
+        armServo = hardwareMap.get(Servo.class, "armservo1");
         discoServo = hardwareMap.get(CRServo.class, "DiscoBall");
 
 
@@ -126,10 +130,15 @@ public class AltBotMecanumOp extends LinearOpMode {
             }else{
                 yaw = 0;
             }
-            if (gamepad1.a && !discoServo.isBusy()){
-                discoServo.setPower(50);
-            } else if (gamepad1.a && discoServo.isBusy(){
+            if (gamepad1.a){
+                discoServo.setPower(25);
+            } else if (gamepad1.b){
                 discoServo.setPower(0);
+            }
+            if (gamepad1.dpad_left){
+                armServo.setPosition(0.7);
+            } else if (gamepad1.dpad_right){
+                armServo.setPosition(0.3);
             }
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
